@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard | CDU Tech Club</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ====== CSS VARIABLES ====== */
+    :root {
+      --primary-color: #004aad;
+      --primary-hover-color: #003b8a;
+      --background-color: #f4f6f8;
+      --card-background: #ffffff;
+      --text-color: #111827;
+      --subtext-color: #374151;
+      --border-color: #e5e7eb;
+      --shadow-color: rgba(0, 0, 0, 0.08);
+      
+      --dark-primary-color: #facc15;
+      --dark-background-color: #111827;
+      --dark-card-background: #1f2937;
+      --dark-text-color: #e5e7eb;
+    }
+
+    /* ====== GLOBAL STYLES ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
+    }
+    
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* ====== NAVIGATION BAR ====== */
+    .navbar {
+        background: var(--card-background);
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px var(--shadow-color);
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative; /* For mobile layout */
+    }
+
+    .nav-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .nav-menu {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .back-home-btn {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 600;
+        padding: 8px 15px;
+        border-radius: 6px;
+        transition: background 0.3s, color 0.3s;
+        border: 1px solid var(--primary-color);
+    }
+
+    .back-home-btn:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .theme-toggle-btn {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+    
+    .menu-toggle-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+
+    /* ====== DASHBOARD & SIDEBAR ====== */
+    .dashboard-wrapper { display: flex; flex-grow: 1; }
+    .sidebar { width: 250px; background: var(--card-background); border-right: 1px solid var(--border-color); padding: 25px 15px; flex-shrink: 0; transition: transform 0.3s ease-in-out; }
+    .sidebar-header { text-align: center; margin-bottom: 25px; font-size: 1.3rem; font-weight: 600; color: var(--primary-color); }
+    .sidebar-menu { list-style: none; }
+    .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 8px; text-decoration: none; color: var(--subtext-color); margin-bottom: 8px; font-weight: 600; transition: background 0.3s, color 0.3s; }
+    .sidebar-menu li a:hover, .sidebar-menu li a.active { background: var(--primary-color); color: white; }
+    .sidebar-menu li a .icon { font-size: 1.2rem; }
+
+    /* ====== CONTENT & CARDS ====== */
+    .main-content { flex-grow: 1; padding: 30px; overflow-y: auto; }
+    .dashboard-header { margin-bottom: 30px; }
+    .dashboard-header h1 { font-size: 2rem; }
+    .dashboard-header p { color: var(--subtext-color); }
+    .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+    .card { background: var(--card-background); border-radius: 16px; box-shadow: 0 4px 15px var(--shadow-color); padding: 25px; border: 1px solid var(--border-color); transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+    .card .icon { font-size: 2rem; color: var(--primary-color); margin-bottom: 15px; }
+    .card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .card p { color: var(--subtext-color); font-size: 0.95rem; }
+
+    /* ====== FOOTER ====== */
+    .site-footer { background: #1f2937; color: #e5e7eb; padding: 50px 0; margin-top: auto; }
+    .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+    .footer-about .logo-text { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
+    .footer-links ul { list-style: none; } .footer-links ul li { margin-bottom: 10px; }
+    .footer-links a { text-decoration: none; color: #9ca3af; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--dark-primary-color); }
+    .social-icons a { color: #e5e7eb; font-size: 1.5rem; margin-right: 15px; transition: color 0.3s; }
+    .social-icons a:hover { color: var(--dark-primary-color); }
+    .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #374151; color: #9ca3af; }
+    .footer-bottom a { color: var(--dark-primary-color); text-decoration: none; }
+    
+    /* ====== DARK MODE ====== */
+    body.dark { --background-color: var(--dark-background-color); --card-background: var(--dark-card-background); --text-color: var(--dark-text-color); --subtext-color: #9ca3af; --border-color: #374151; --shadow-color: rgba(0, 0, 0, 0.2); }
+    body.dark .nav-brand, body.dark .sidebar-header, body.dark .card .icon { color: var(--dark-primary-color); }
+    body.dark .back-home-btn { color: var(--dark-text-color); border-color: var(--dark-primary-color); }
+    body.dark .back-home-btn:hover { background: var(--dark-primary-color); color: #111827; }
+    body.dark .sidebar-menu li a:hover, body.dark .sidebar-menu li a.active { background: var(--dark-primary-color); color: #111827; }
+
+    /* ====== RESPONSIVE DESIGN FOR MOBILE ====== */
+    @media (max-width: 768px) {
+        .nav-container { justify-content: center; }
+        .nav-brand { font-size: 1.2rem; }
+        .menu-toggle-btn { display: block; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); z-index: 1002; }
+        .nav-menu { display: contents; }
+        .nav-menu .back-home-btn { display: none; }
+        .theme-toggle-btn { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1002; }
+        .sidebar { position: fixed; left: 0; top: 0; height: 100%; z-index: 1001; transform: translateX(-100%); border-right: 1px solid var(--border-color); }
+        body.sidebar-open .sidebar { transform: translateX(0); }
+        .main-content { padding: 20px; }
+        .dashboard-header h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="nav-container container">
+      
+
+      <a href="index.html" class="nav-brand">Student Panel</a>
+      
+      <div class="nav-menu">
+        <a href="index.html" class="back-home-btn">← Back to Home</a>
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="sidebar-header">Student Menu</h2>
+      <ul class="sidebar-menu">
+        <li><a href="#" class="active"><i class="icon fa-solid fa-tachograph-digital"></i> Dashboard</a></li>
+        <li><a href="#"><i class="icon fa-solid fa-user-check"></i> View Attendance</a></li>
+        <li><a href="#"><i class="icon fa-solid fa-download"></i> Download Notes</a></li>
+        <li><a href="#"><i class="icon fa-solid fa-upload"></i> Submit Assignments</a></li>
+        <li><a href="#"><i class="icon fa-solid fa-graduation-cap"></i> View Results</a></li>
+        <li><a href="#"><i class="icon fa-solid fa-chalkboard-user"></i> Contact Faculty</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="dashboard-header">
+        <h1>Student Dashboard</h1>
+        <p>Welcome! Access your academic resources and track your progress here.</p>
+      </section>
+
+      <section class="dashboard-cards">
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-user-check"></i></div>
+          <h3>View Attendance</h3>
+          <p>Check your attendance report for all subjects.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-download"></i></div>
+          <h3>Download Notes</h3>
+          <p>Access subject-wise lecture notes and materials.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-upload"></i></div>
+          <h3>Submit Assignments</h3>
+          <p>Upload your completed assignments before the deadline.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <h3>View Results</h3>
+          <p>Check your latest exam and internal marks.</p>
+        </div>
+        <div class="card">
+            <div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+            <h3>Contact Faculty</h3>
+            <p>Send queries or messages to your subject teachers.</p>
+        </div>
+        <div class="card">
+            <div class="icon"><i class="fa-solid fa-bell"></i></div>
+            <h3>Notifications</h3>
+            <p>Stay updated with the latest club announcements.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-about">
+          <span class="logo-text">CDU Tech Club</span>
+          <p>Select your role below to view your respective dashboard interface.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h4>Follow Us</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 by <a href="#">CDU Tech Club</a> | Frontend Developer Task.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggleBtn = document.getElementById("themeToggle");
+    const menuToggleBtn = document.getElementById("menuToggleBtn");
+
+    // ====== DARK/LIGHT MODE TOGGLE ======
+    themeToggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      const themeIcon = themeToggleBtn.querySelector("i");
+      if (document.body.classList.contains("dark")) {
+        themeIcon.classList.remove("fa-moon");
+        themeIcon.classList.add("fa-sun");
+      } else {
+        themeIcon.classList.remove("fa-sun");
+        themeIcon.classList.add("fa-moon");
+      }
+    });
+
+    // ====== MOBILE SIDEBAR TOGGLE ======
+    menuToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle('sidebar-open');
+        
+        const menuIcon = menuToggleBtn.querySelector("i");
+        if (document.body.classList.contains('sidebar-open')) {
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-times');
+        } else {
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
+        }
+    });
+  </script>
+</body>
+</html>
