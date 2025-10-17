@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ====== CSS VARIABLES FOR THEME COLORS ====== */
     :root {
       --primary-color: #004aad;
       --primary-hover-color: #003b8a;
@@ -23,7 +22,7 @@
       --border-color: #e5e7eb;
       --shadow-color: rgba(0, 0, 0, 0.08);
       
-      --dark-primary-color: #facc15; /* Yellow for dark mode accent */
+      --dark-primary-color: #facc15;
       --dark-background-color: #111827;
       --dark-card-background: #1f2937;
       --dark-text-color: #e5e7eb;
@@ -55,8 +54,10 @@
         color: var(--text-color);
         padding: 1rem 0;
         border-bottom: 1px solid var(--border-color);
-        position: sticky;
+        /* YAHAN BADLAV KIYA GAYA HAI */
+        position: fixed;
         top: 0;
+        width: 100%;    
         z-index: 100;
         box-shadow: 0 2px 10px var(--shadow-color);
     }
@@ -71,6 +72,13 @@
         font-size: 1.5rem;
         font-weight: 700;
         color: var(--primary-color);
+        display: flex;
+        align-items: center;
+    }
+
+    .site-logo {
+        height: 40px;
+        margin-right: 10px;
     }
     
     .nav-menu {
@@ -103,9 +111,15 @@
     }
     
     .nav-toggler {
-        display: none; /* Hidden on desktop */
+        display: none;
         font-size: 1.8rem;
         cursor: pointer;
+    }
+
+    /* ====== MAIN CONTENT PADDING ====== */
+   
+    main {
+        padding-top: 80px; 
     }
 
     /* ====== HERO SECTION ====== */
@@ -276,7 +290,7 @@
     }
     
     body.dark .role-card a:hover {
-        background: #fbbf24; /* A slightly darker yellow */
+        background: #fbbf24; 
     }
 
     /* ====== RESPONSIVE DESIGN ====== */
@@ -306,25 +320,6 @@
       }
     }
   </style>
-  
-  <style>
-  .nav-brand {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        /* Add display flex to align logo properly */
-        display: flex;
-        align-items: center;
-    }
-
-    .site-logo {
-        height: 40px; /* Adjust this value as needed */
-        margin-right: 10px; /* Adds some space between the logo and any text if you add it later */
-    }
-	
-	</style>
-	
-	
 </head>
 <body>
 
@@ -454,7 +449,7 @@
     navToggler.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         
-        // Change hamburger icon to 'X' and back
+        
         const togglerIcon = navToggler.querySelector("i");
         if (navMenu.classList.contains('active')) {
             togglerIcon.classList.remove('fa-bars');
