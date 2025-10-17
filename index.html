@@ -306,14 +306,34 @@
       }
     }
   </style>
+  
+  <style>
+  .nav-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        /* Add display flex to align logo properly */
+        display: flex;
+        align-items: center;
+    }
+
+    .site-logo {
+        height: 40px; /* Adjust this value as needed */
+        margin-right: 10px; /* Adds some space between the logo and any text if you add it later */
+    }
+	
+	</style>
+	
+	
 </head>
 <body>
 
   <header>
     <nav class="navbar">
-      <div class="nav-container container">
-        <a href="#" class="nav-brand">CDU Tech Club</a>
-
+      <div class="container nav-container">
+        <a href="#" class="nav-brand">
+            <img src="images/CDU.png" alt="CDU Tech Club Logo" class="site-logo">
+        </a>
         
         <ul class="nav-menu" id="navMenu">
           <li class="nav-item"><a href="#">Home</a></li>
@@ -331,7 +351,7 @@
         </div>
       </div>
     </nav>
-  </header>
+</header>
 
   <main class="container">
     <section class="hero">
